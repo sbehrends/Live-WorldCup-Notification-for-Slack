@@ -2,7 +2,7 @@ var requestify = require("requestify");
 var async = require("async");
 
 // Create an incoming webhook
-var slack = require('slack-notify')('https://gangoffourorfive.slack.com/services/hooks/incoming-webhook?token=OL71Lcjpm0BcrqMMkzInIIoo');
+var slack = require('slack-notify')(process.env.SLACKHOOK);
 
 
 var matchID = "",
@@ -38,7 +38,7 @@ var cronJob = cron.job("* * * * * *", function(){
             		var text = 'Começa '+match.c_HomeTeam_pt+ ' vs '+match.c_AwayTeam_pt;
             		console.log(text)
             		slack.send({
-					  channel: '#random',
+					  channel: '#' + process.env.CHANNEL,
 					  text: text,
 					  username: 'WorldCupBot'
 					});
@@ -55,7 +55,7 @@ var cronJob = cron.job("* * * * * *", function(){
             		console.log(text)
 
             		slack.send({
-					  channel: '#random',
+					  channel: '#' + process.env.CHANNEL,
 					  text: text,
 					  username: 'WorldCupBot'
 					});

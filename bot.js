@@ -28,7 +28,7 @@ var cronJob = cron.job("* * * * * *", function(){
             if (typeof match == "object") {
             	// Got Live Match!
 
-                  var channelName = '#' + (process.env.CHANNEL | 'random');
+                  var channelName = '#' + (process.env.CHANNEL || 'random');
 
                   var homeTeamField = 'c_HomeTeam_' + (process.env.LANGUAGE || 'en');
                   var awayTeamField = 'c_AwayTeam_' + (process.env.LANGUAGE || 'en');

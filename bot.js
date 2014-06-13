@@ -28,6 +28,8 @@ var cronJob = cron.job("* * * * * *", function(){
             if (typeof match == "object") {
             	// Got Live Match!
 
+                  var channelName = '#' + (process.env.CHANNEL | 'random');
+
                   var homeTeamField = 'c_HomeTeam_' + (process.env.LANGUAGE || 'en');
                   var awayTeamField = 'c_AwayTeam_' + (process.env.LANGUAGE || 'en');
                   var startExpression
@@ -49,7 +51,7 @@ var cronJob = cron.job("* * * * * *", function(){
             		var text = startExpression+' '+match[homeTeamField]+ ' vs '+match[awayTeamField];
             		console.log(text)
             		slack.send({
-					  channel: '#' + process.env.CHANNEL,
+					  channel: channelName,
 					  text: text,
 					  username: 'WorldCupBot'
 					});
@@ -66,7 +68,7 @@ var cronJob = cron.job("* * * * * *", function(){
             		console.log(text)
 
             		slack.send({
-					  channel: '#' + process.env.CHANNEL,
+					  channel: channelName,
 					  text: text,
 					  username: 'WorldCupBot'
 					});

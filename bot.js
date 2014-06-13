@@ -11,7 +11,7 @@ var matchID = "",
 
 
 var cron = require('cron');
-var cronJob = cron.job("*/5 * * * * *", function(){
+var cronJob = cron.job("* * * * * *", function(){
 
 
 	// Get Match list
@@ -35,12 +35,12 @@ var cronJob = cron.job("*/5 * * * * *", function(){
             		matchScore = ''
 
             		// Notify New match
-            		var text = 'Comienza '+match.c_HomeTeam_es+ ' vs '+match.c_AwayTeam_es;
+            		var text = 'Começa '+match.c_HomeTeam_pt+ ' vs '+match.c_AwayTeam_pt;
             		console.log(text)
             		slack.send({
 					  channel: '#random',
 					  text: text,
-					  username: 'AeroBot'
+					  username: 'WorldCupBot'
 					});
 
 
@@ -49,7 +49,7 @@ var cronJob = cron.job("*/5 * * * * *", function(){
 
             		matchScore = match.c_Score
 
-            		var text = match.c_HomeTeam_es+ ' '+match.c_Score+' '+match.c_AwayTeam_es+' ';
+            		var text = match.c_HomeTeam_pt+ ' '+match.c_Score+' '+match.c_AwayTeam_pt+' ';
 
             		// Notify goal
             		console.log(text)
@@ -57,7 +57,7 @@ var cronJob = cron.job("*/5 * * * * *", function(){
             		slack.send({
 					  channel: '#random',
 					  text: text,
-					  username: 'AeroBot'
+					  username: 'WorldCupBot'
 					});
 
             	}

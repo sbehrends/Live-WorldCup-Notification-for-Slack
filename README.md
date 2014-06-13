@@ -1,7 +1,7 @@
 Live-WorldCup-Notification-for-Slack
 ====================================
 
-It's a NodeJS worker that request every 5 seconds data from the FIFA World Cup API and notifies via Slack API (It's possible to apply other ways of notification) the changes of the match.
+It's a NodeJS worker that request every 1 minute data from the FIFA World Cup API and notifies via Slack API (It's possible to apply other ways of notification) the changes of the match.
 
 ====================================
 

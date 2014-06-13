@@ -30,6 +30,15 @@ var cronJob = cron.job("* * * * * *", function(){
 
                   var homeTeamField = 'c_HomeTeam_' + (process.env.LANGUAGE || 'en');
                   var awayTeamField = 'c_AwayTeam_' + (process.env.LANGUAGE || 'en');
+                  var startExpression
+                  if (process.env.LANGUAGE == 'es') {
+                    startExpression = 'Comienza';
+                  } else if (process.env.LANGUAGE == 'pt') {
+                      startExpression = 'Começa';
+                  } else {
+                      startExpression = 'Starts';
+                  }
+
             	if (match.n_MatchID != matchID) {
             		// New Match just started
 
@@ -37,7 +46,7 @@ var cronJob = cron.job("* * * * * *", function(){
             		matchScore = ''
 
             		// Notify New match
-            		var text = 'Começa '+match[homeTeamField]+ ' vs '+match[awayTeamField];
+            		var text = startExpression+' '+match[homeTeamField]+ ' vs '+match[awayTeamField];
             		console.log(text)
             		slack.send({
 					  channel: '#' + process.env.CHANNEL,

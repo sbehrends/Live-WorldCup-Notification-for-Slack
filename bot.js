@@ -2,7 +2,7 @@ var requestify = require("requestify");
 var async = require("async");
 
 // Create an incoming webhook
-var slack = require('slack-notify')('https://domain.slack.com/services/hooks/incoming-webhook?token=');
+var slack = require('slack-notify')('https://gangoffourorfive.slack.com/services/hooks/incoming-webhook?token=OL71Lcjpm0BcrqMMkzInIIoo');
 
 
 var matchID = "",
@@ -38,12 +38,12 @@ var cronJob = cron.job("*/5 * * * * *", function(){
             		var text = 'Comienza '+match.c_HomeTeam_es+ ' vs '+match.c_AwayTeam_es;
             		console.log(text)
             		slack.send({
-					  channel: '#futbol',
+					  channel: '#random',
 					  text: text,
 					  username: 'AeroBot'
 					});
 
-            		
+
             	} else if (matchScore != match.c_Score) {
             		// Different Score
 
@@ -55,7 +55,7 @@ var cronJob = cron.job("*/5 * * * * *", function(){
             		console.log(text)
 
             		slack.send({
-					  channel: '#futbol',
+					  channel: '#random',
 					  text: text,
 					  username: 'AeroBot'
 					});
@@ -69,5 +69,5 @@ var cronJob = cron.job("*/5 * * * * *", function(){
 	    });
 
 	});
-}); 
+});
 cronJob.start();

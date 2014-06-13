@@ -11,7 +11,7 @@ var matchID = "",
 
 
 var cron = require('cron');
-var cronJob = cron.job("*/5 * * * * *", function(){
+var cronJob = cron.job("* * * * * *", function(){
 
 
 	// Get Match list

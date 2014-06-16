@@ -3,7 +3,7 @@ var async = require("async");
 
 // Create an incoming webhook
 var slack = require('slack-notify')(process.env.SLACKHOOK);
-
+var DEFAULT_ICON_URL = 'http://worldcupzones.com/wp-content/uploads/2014/05/the-2014-fifa-world-cup-in46.jpg';
 
 var matchID = "",
 matchScore = "",
@@ -28,8 +28,8 @@ var cronJob = cron.job("*/5 * * * * *", function(){
             if (typeof match == "object") {
                   // Got Live Match!
 
+                  var iconUrl = (process.env.ICON_URL || DEFAULT_ICON_URL);
                   var channelName = '#' + (process.env.CHANNEL || 'random');
-
                   var homeTeamField = 'c_HomeTeam_' + (process.env.LANGUAGE || 'en');
                   var awayTeamField = 'c_AwayTeam_' + (process.env.LANGUAGE || 'en');
                   var startExpression
@@ -48,12 +48,15 @@ var cronJob = cron.job("*/5 * * * * *", function(){
                               matchScore = ''
 
                               // Notify New match
-                              var text = startExpression+' '+match[homeTeamField]+ ' vs '+match[awayTeamField] +'\n<' + match.c_ShareURL_en + '>';
+                              var text = startExpression + ' ' + match[homeTeamField] + ' vs ' + match[awayTeamField] +
+                                    ' (' + match.c_Stadium + ', ' + match.c_City + ')' + '\n<' + match.c_ShareURL_en + '>';
+
                               console.log(text)
                               slack.send({
                                    channel: channelName,
                                    text: text,
-                                   username: 'WorldCupBot'
+                                   username: 'WorldCupBot',
+                                   icon_url: iconUrl
                              });
 
 
@@ -70,7 +73,8 @@ var cronJob = cron.job("*/5 * * * * *", function(){
                               slack.send({
                                    channel: channelName,
                                    text: text,
-                                   username: 'WorldCupBot'
+                                   username: 'WorldCupBot',
+                                   icon_url: iconUrl
                              });
 
                         }

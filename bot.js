@@ -48,7 +48,7 @@ var cronJob = cron.job("*/5 * * * * *", function(){
                               matchScore = ''
 
                               // Notify New match
-                              var text = startExpression+' '+match[homeTeamField]+ ' vs '+match[awayTeamField];
+                              var text = startExpression+' '+match[homeTeamField]+ ' vs '+match[awayTeamField] +'\n<' + match.c_ShareURL_en + '>';
                               console.log(text)
                               slack.send({
                                    channel: channelName,

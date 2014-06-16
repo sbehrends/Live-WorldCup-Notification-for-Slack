@@ -38,4 +38,11 @@ Example:
 ```
 CHANNEL=general
 ```
+### Icon Image
 
+You can change the default bot icon/avatar by setting a ICON_URL environment variable.
+
+Example:
+```
+ICON_URL=http://worldcupzones.com/wp-content/uploads/2014/05/the-2014-fifa-world-cup-in46.jpg
+```

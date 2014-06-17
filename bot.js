@@ -9,6 +9,7 @@ var matchID = "",
 matchScore = "",
 match;
 
+var botName = process.env.BOTNAME || 'WorldCupBot';
 
 var cron = require('cron');
 var cronJob = cron.job("*/5 * * * * *", function(){
@@ -55,7 +56,7 @@ var cronJob = cron.job("*/5 * * * * *", function(){
                               slack.send({
                                    channel: channelName,
                                    text: text,
-                                   username: 'WorldCupBot',
+                                   username: botName,
                                    icon_url: iconUrl
                              });
 
@@ -73,7 +74,7 @@ var cronJob = cron.job("*/5 * * * * *", function(){
                               slack.send({
                                    channel: channelName,
                                    text: text,
-                                   username: 'WorldCupBot',
+                                   username: botName,
                                    icon_url: iconUrl
                              });
 

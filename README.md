@@ -46,3 +46,12 @@ Example:
 ```
 ICON_URL=http://worldcupzones.com/wp-content/uploads/2014/05/the-2014-fifa-world-cup-in46.jpg
 ```
+
+### Bot Name
+
+You can change the default bot name by setting a BOTNAME environment variable.
+
+Example:
+```
+BOTNAME=SportsBot5000
+```

@@ -32,6 +32,7 @@ var cronJob = cron.job("*/5 * * * * *", function(){
                   var channelName = '#' + (process.env.CHANNEL || 'random');
                   var homeTeamField = 'c_HomeTeam_' + (process.env.LANGUAGE || 'en');
                   var awayTeamField = 'c_AwayTeam_' + (process.env.LANGUAGE || 'en');
+                  var shareUrlField = 'c_ShareURL_' + (process.env.LANGUAGE || 'en');
                   var startExpression
                   if (process.env.LANGUAGE == 'es') {
                         startExpression = 'Comienza';
@@ -48,8 +49,8 @@ var cronJob = cron.job("*/5 * * * * *", function(){
                               matchScore = ''
 
                               // Notify New match
-                              var text = startExpression + ' ' + match[homeTeamField] + ' vs ' + match[awayTeamField] +
-                                    ' (' + match.c_Stadium + ', ' + match.c_City + ')' + '\n<' + match.c_ShareURL_en + '>';
+                              var text = startExpression + ' <' + match[shareUrlField] + '|' + match[homeTeamField] + ' vs ' + match[awayTeamField] +
+                                    '> (' + match.c_Stadium + ', ' + match.c_City + ')';
 
                               console.log(text)
                               slack.send({

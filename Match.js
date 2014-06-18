@@ -4,6 +4,7 @@
  */
 
 var EventEmitter = require('events').EventEmitter;
+var util = require('util');
 
 /**
  * Match constructor.
@@ -14,11 +15,12 @@ var EventEmitter = require('events').EventEmitter;
  *   The prefered language for team names.
  */
 var Match = function (language) {
+    EventEmitter.call(this);
     this.language = language;
     this.initialized = false;
 };
 
-Match.prototype = new EventEmitter();
+util.inherits(Match, EventEmitter);
 
 /**
  * Extracts important data from the match data and updates the match.

@@ -17,7 +17,7 @@ var startExpression;
 var stopExpression;
 if (language == 'es') {
     startExpression = 'Comienza';
-    startExpression = 'Finaliza';
+    stopExpression = 'Finaliza';
 } else if (language == 'pt') {
     startExpression = 'Começa';
     stopExpression = 'Termina';

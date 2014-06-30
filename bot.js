@@ -61,7 +61,7 @@ var announceMatchStart = function (match) {
  */
 var announceMatchComplete = function (match) {
     var vs = match.homeTeam + ' vs ' + match.awayTeam;
-    var stadium = match.data.c_Stadium + ', ' + match.data.c_City;
+    var stadium = match.data.c_Stadidum + ', ' + match.data.c_City;
     var text = stopExpression + ' ' + slackLink(vs, match.url) + ' (' + stadium + ')';
     announce(text);
     delete(activeMatches[match.data.n_MatchID]);
@@ -79,7 +79,7 @@ var cronJob = cron.job("*/5 * * * * *", function(){
 
       // Get Match list
       requestify.get('http://live.mobileapp.fifa.com/api/wc/matches').then(function(response) {
-            var matches = response.getBody().data.group;
+            var matches = response.getBody().data.second;
 
             async.filter(matches, function(item, callback) {
                callback (item.b_Live == true || activeMatches[item.n_MatchID]);

@@ -56,7 +56,7 @@ Match.prototype.update = function (matchData) {
  * Sets live to true and emits the startMatch event.
  */
 Match.prototype.startMatch = function () {
-    console.log("start");
+    console.log("Jibber!");
     this.live = true;
     this.emit('startMatch', this);
 };
@@ -67,7 +67,7 @@ Match.prototype.startMatch = function () {
  * Sets live to false and emits the endMatch event.
  */
 Match.prototype.endMatch = function () {
-    console.log("end");
+    console.log("Jabber!");
     this.live = false;
     this.emit('endMatch', this);
 };

@@ -1,14 +1,17 @@
-var requestify = require("requestify");
-var async = require("async");
-var cron = require("cron");
-var Match = require("./Match");
-var activeMatches = {};
+require('dotenv').config()
+const requestify = require("requestify");
+const async = require("async");
+const cron = require("cron");
+const Match = require("./Match");
+const activeMatches = {};
+const competitionIdToCrawl = process.env.COMPETITION_ID || '17'; // 2018 WC | use "all" to dont filter
+const cronJobTime = process.env.CRON_TIME || '*/5 * * * * *';
 
 // Create an incoming webhook
 var slack = require('slack-notify')(process.env.SLACKHOOK);
 
 // Load configuration.
-var DEFAULT_ICON_URL = 'http://worldcupzones.com/wp-content/uploads/2014/05/the-2014-fifa-world-cup-in46.jpg';
+var DEFAULT_ICON_URL = 'https://en.wikipedia.org/wiki/2018_FIFA_World_Cup#/media/File:2018_FIFA_World_Cup.svg';
 var botName = process.env.BOTNAME || 'WorldCupBot';
 var iconUrl = (process.env.ICON_URL || DEFAULT_ICON_URL);
 var channelName = '#' + (process.env.CHANNEL || 'random');
@@ -51,9 +54,7 @@ var announce = function (text) {
  */
 var announceMatchStart = function (match) {
     var vs = match.homeTeam + ' vs ' + match.awayTeam;
-    var stadium = match.data.c_Stadium + ', ' + match.data.c_City;
-    var text = startExpression + ' ' + slackLink(vs, match.url) + ' (' + stadium + ')';
-    announce(text);
+    announce(`${startExpression} ${vs}`);
 };
 
 /**
@@ -74,32 +75,32 @@ var announceScore = function (match) {
     announce(match.homeTeam + ' (' + match.score + ') ' + match.awayTeam);
 };
 
-var cronJob = cron.job("*/5 * * * * *", function(){
-
-
-      // Get Match list
-      requestify.get('http://live.mobileapp.fifa.com/api/wc/matches').then(function(response) {
-            var matches = response.getBody().data.second;
-
-            async.filter(matches, function(item, callback) {
-               callback (item.b_Live == true || activeMatches[item.n_MatchID]);
-
-      }, function(results){
-          for (var i = 0; i < results.length; i += 1) {
-              if (activeMatches[results[i].n_MatchID]) {
-                  match = activeMatches[results[i].n_MatchID];
-              } else {
-                  match = new Match(language);
-                  match.on('startMatch', announceMatchStart);
-                  match.on('endMatch', announceMatchComplete);
-                  match.on('updateScore', announceScore);
-                  activeMatches[results[i].n_MatchID] = match;
-              }
-
-              match.update(results[i]);
-          }
-    });
-
-      });
+var cronJob = cron.job(cronJobTime, function(){
+    requestLiveMatches(competitionIdToCrawl);
 });
+console.log('Cron Started')
 cronJob.start();
+
+async function requestLiveMatches(competitionId) {
+    const url = 'https://api.fifa.com/api/v1/live/football/now?language=en-GB&count=500';
+    const response = await requestify.get(url);
+    let filteredMatches = response.getBody().Results;
+    if (competitionId !== 'all') {
+        filteredMatches = filteredMatches.filter(item => item.IdCompetition === competitionId)
+    }
+
+    filteredMatches.forEach((match) => {
+        let matchInstance
+        if (activeMatches[match.IdMatch]) {
+            matchInstance = activeMatches[match.IdMatch];
+        } else {
+            matchInstance = new Match(language);
+            matchInstance.on('startMatch', announceMatchStart);
+            matchInstance.on('endMatch', announceMatchComplete);
+            matchInstance.on('updateScore', announceScore);
+            activeMatches[match.IdMatch] = matchInstance;
+        }
+
+        matchInstance.update(match);
+    })
+}

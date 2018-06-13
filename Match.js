@@ -22,6 +22,10 @@ var Match = function (language) {
 
 util.inherits(Match, EventEmitter);
 
+Match.prototype.getScore = function (matchData) {
+    return `${matchData.HomeTeam.Score} - ${matchData.AwayTeam.Score}`;
+}
+
 /**
  * Extracts important data from the match data and updates the match.
  *
@@ -29,15 +33,13 @@ util.inherits(Match, EventEmitter);
  *   Match object parsed from the FIFA api.
  */
 Match.prototype.update = function (matchData) {
-    var score = matchData.c_Score;
-    var live = matchData.b_Live;
+    var score = this.getScore(matchData);
+    var live = typeof matchData.MatchTime === 'string';
     this.data = matchData;
 
     if (!this.initialized) {
-        this.homeTeam = this.data['c_HomeTeam_' + this.language];
-        this.awayTeam = this.data['c_AwayTeam_' + this.language];
-        this.url = this.data['c_ShareURL_' + this.language];
-        console.log(this.url);
+        this.homeTeam = this.data.HomeTeam.TeamName[0].Description
+        this.awayTeam = this.data.AwayTeam.TeamName[0].Description
         this.score = '';
         this.live = false;
         this.initialized = true;

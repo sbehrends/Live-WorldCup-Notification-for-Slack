@@ -32,8 +32,17 @@ async function notifyTeams(text) {
   console.log(`> Notify teams: ${text}`)
   const teams = await SlackTeam.find()
   teams.forEach(async (team) => {
-    const webhook = new IncomingWebhook(team.incomingWebhook.url)
-    await webhook.send(text)
+    try {
+      const webhook = new IncomingWebhook(team.incomingWebhook.url)
+      await webhook.send(text)
+    } catch(err) {
+      if (err.original.statusCode === 404) {
+        console.log(`Delete team ${team.teamName} (${team.teamId}) because of error`)
+        await team.remove()
+        return
+      }
+      console.log(`Unknown error when sending message to ${team.teamName} (${team.teamId})`, err)
+    }
   })
 }
 

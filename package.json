@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "micro",
+    "start": "micro -l tcp://0.0.0.0:${PORT-3000}",
     "dev": "nodemon index.js --exec micro"
   },
   "main": "index.js",
   "engines": {
-    "node": "8.9.x"
+    "node": "8.11.x",
+    "npm": "5.5.1"
   },
   "dependencies": {
     "@slack/client": "^4.3.1",

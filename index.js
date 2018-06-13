@@ -77,7 +77,7 @@ const slackAuthCallback = async (req, res) => {
     accessToken: oauthRes.access_token,
     incomingWebhook: oauthRes.incoming_webhook })
   await newTeam.save()
-  send(res, 200, {fields, oauthRes})
+  send(res, 200, {success: true})
 }
 
 module.exports = router(

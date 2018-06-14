@@ -3,10 +3,34 @@
   <head>
     <meta charset="UTF-8">
     <title>WorldCup Slack Notifier</title>
+    <style>
+      html, body {
+        min-height: 100%;
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;  
+      }
+      .container {
+        flex: 1;
+        text-align: center;
+      }
+      h1 {
+        color: rgb(50, 54, 72);
+        font-family: "Times New Roman", Georgia, serif;
+        font-size: 46px;
+      }
+    </style>
   </head>
   <body>
-    <a href="/auth">
+    <div class="container">
+      <h1>World Cup 2018 Slack Notifier</h1>
+      <a href="/auth">
         <img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" />
     </a>
+    </div>
   </body>
 </html>

@@ -16,6 +16,10 @@ It is posible to run it as a worker on Heroku :)
 
 You need to add an Incoming WebHooks integration in Slack settings. Slack will provide a URL, it must be configured on heroku.
 
+- On Slack, go to Manage Slack
+- Add a Incomming Webhook App
+- Create configuration
+
 Example:
 ```
 SLACKHOOK=https://yourslackdomain.slack.com/services/hooks/incoming-webhook?token=SomeSecretToken
